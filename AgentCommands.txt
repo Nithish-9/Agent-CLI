@@ -1,0 +1,62 @@
+agent version
+agent start
+agent stop
+agent logs
+agent logs -n 100
+agent logs -l error
+
+agent get all
+agent get models
+agent get models -a
+agent get models -i
+agent get mcpservers
+agent get mcpservers -a
+agent get mcpservers -i
+agent get model -n groq-fast
+agent get mcpserver -n SalesforceMCP
+
+agent add model -r groq-fast -m llama-3.3-70b-versatile -e https://api.groq.com/openai/v1 -k gsk_xxx
+agent add mcpserver -n SalesforceMCP -t streamable-http -e http://localhost:9000/mcp
+
+agent update model -n groq-fast -m llama-3.1-8b-instant
+agent update mcpserver -n SalesforceMCP -e http://localhost:8000/mcp
+
+agent delete model -n groq-fast
+agent delete mcpserver -n SalesforceMCP
+
+agent check model -n groq-fast
+agent check mcpserver -n SalesforceMCP
+
+agent set roles -p groq-fast -e groq-powerful
+
+agent apply -f config.yaml
+
+
+# Linux/Mac
+~/.agent/logs/agent.log
+
+# Windows
+C:\Users\{username}\.agent\logs\agent.log
+
+
+owner  | Group | Other
+rwx    | rwx    | rwx
+421
+
+# simple loop (workbench)
+for ($i = 1; $i -le 10; $i++) {
+    Start-Job { Invoke-WebRequest -Method GET -Uri http://localhost:9999/status }
+}
+
+for /l %i in (1,1,10) do start curl -X POST http://localhost:9999/init -H "Content-Type: application/json" -d "{\"key\":\"value\"}"
+
+go run -race ./main start
+
+
+for /l %i in (1,1,5) do start curl -X POST http://localhost:9999/agent/init -H "Content-Type: application/json" -d "{\"mcp_servers\":{\"servers\":[{\"name\":\"SalesforceMCP\",\"url\":\"http://localhost:9000/mcp\",\"transport\":\"streamable-http\"}]},\"models\":{\"models\":[{\"name\":\"groq-qwen3-32b\",\"provider\":\"openai\",\"base_url\":\"https://api.groq.com/openai/v1\",\"api_key\":\"dummy-key\",\"model\":\"qwen/qwen3-32b\"}]},\"planner\":\"groq-qwen3-32b\",\"executor\":\"groq-qwen3-32b\"}"
+for /l %i in (1,1,10) do start curl -X GET http://localhost:9999/agent/status
+
+agent apply -f G:\Go-Salesforce-MCP\salesforce-ai-agent\agent.yaml
+
+
+start status.bat & start init.bat & go run ./tests

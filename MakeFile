@@ -1,0 +1,11 @@
+.PHONY: build run clean
+
+build:
+	go build -o C:\Users\nithi\go\bin\agent.exe ./main
+	@echo agent.exe built successfully
+
+run:
+	go run ./cmd start
+
+clean:
+	del C:\Users\nithi\go\bin\agent.exe
